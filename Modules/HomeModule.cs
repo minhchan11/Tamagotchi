@@ -14,6 +14,10 @@ namespace TamagotchiPlay
         Tamagotchi newTamagotchi = new Tamagotchi(Request.Query["new-tamagotchi"], 100, 100, 100);
         return View["Tama_individual.cshtml",newTamagotchi];
       };
+      Post["/feed"] = _ => {
+        Tamagotchi.Feed();
+        return View["Tama_individual.cshtml"];
+      };
     }
   }
 }
