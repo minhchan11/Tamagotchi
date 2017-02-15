@@ -9,8 +9,10 @@ namespace TamagotchiPlay.Objects
     private int _food;
     private int _attention;
     private int _sleep;
+    private int _id;
 
-    private  static List<Tamagotchi> _list = new List<Tamagotchi>{};
+    //IMPORTANT TO PUT PUBLIC STATIC HERE SO THAT YOU CAN ACCESS THIS LIST FROM ALL INSTANCES
+    public static List<Tamagotchi> _instances = new List<Tamagotchi>{};
 
     public Tamagotchi(string name, int food, int attention, int sleep)
     {
@@ -18,6 +20,8 @@ namespace TamagotchiPlay.Objects
       _food = food;
       _attention = attention;
       _sleep = sleep;
+      _instances.Add(this);
+      _id = _instances.Count;
     }
 
     public void SetName(string inputName)
@@ -59,23 +63,53 @@ namespace TamagotchiPlay.Objects
     {
       return _sleep;
     }
-    public static void Feed(){
-      foreach(Tamagotchi tama in _list){
-        tama._food = _food + 10;
-        tama._attention = _attention -5;
-        tama._sleep = _sleep -5;
-      }
+
+    public int GetId()
+    {
+      return _id;
     }
 
-    public void Play(){
-      _food = _food - 20;
-      _attention = _attention +10;
-      _sleep = _sleep -10;
+    public void SetId(int inputId)
+    {
+      _id = inputId;
     }
-    public void Bed(){
-      _food = _food - 5;
-      _attention = _attention - 10;
-      _sleep = _sleep +20;
+
+    public static Tamagotchi Find(int id)
+    {
+      return _instances[id-1];
+    }
+
+    public void Feed()
+    {
+      this._food += 10;
+      this._attention += 10;
+      this._sleep -= 10;
+    }
+
+    public void Play()
+    {
+      this._food -= 20;
+      this._attention += 5;
+      this._sleep -= 20;
+    }
+
+    public void Bed()
+    {
+      this._food -= 20;
+      this._attention -= 10;
+      this._sleep += 20;
+    }
+
+    public bool IsDead()
+    {
+      if((this._food <= 0) || (this._attention <= 0) || (this._sleep <= 0) )
+      {
+        return true;
+      }
+      else
+      {
+        return false;
+      }
     }
   }
 }
